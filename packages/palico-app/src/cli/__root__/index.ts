@@ -13,3 +13,8 @@ export const StartDevApp = async (params: StartDevAppParams) => {
     cleanStart: params.clean,
   });
 };
+
+export const StartProdApp = async () => {
+  console.log('Starting prod app...');
+  await AppServiceManager.startProductionApp();
+};
