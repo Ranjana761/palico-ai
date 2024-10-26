@@ -10,7 +10,6 @@ export const verifySession = async (): Promise<void> => {
   }
   const cookie = cookies().get('session')?.value;
   const session = await decrypt(cookie);
-
   if (!session?.role) {
     redirect(RoutePath.login());
   }
@@ -39,8 +38,10 @@ export async function decrypt(session: string | undefined = '') {
     const { payload } = await jwtVerify<SessionPayload>(session, encodedKey, {
       algorithms: ['HS256'],
     });
+    console.log('Decrypted payload:', payload);
     return payload;
   } catch (error) {
+    console.error('Error decrypting session:', error);
     return null;
   }
 }
@@ -48,7 +49,7 @@ export async function decrypt(session: string | undefined = '') {
 export const createSession = async () => {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
   const session = await encrypt({ role: 'dashboard' });
-
+  console.log('Creating session:', session);
   cookies().set('session', session, {
     httpOnly: true,
     secure: true,
