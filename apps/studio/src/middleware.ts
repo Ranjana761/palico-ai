@@ -15,10 +15,10 @@ export default async function middleware(req: NextRequest) {
     }
     return NextResponse.next();
   }
-  const cookie = cookies().get('session')?.value;
-  const session = await decrypt(cookie);
-  console.log('Cookie:', cookies().get('session'));
-  console.log('Cookie Value:', cookie);
+  const cookie = cookies().get('session');
+  const cookieValue = cookie?.value;
+  const session = await decrypt(cookieValue);
+  console.log('Cookie:', cookie);
   console.log('Session:', session);
   if (!isPublicRoute && !session) {
     console.log('Redirecting to login');

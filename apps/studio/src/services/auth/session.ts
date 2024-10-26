@@ -50,13 +50,14 @@ export const createSession = async () => {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
   const session = await encrypt({ role: 'dashboard' });
   console.log('Creating session:', session);
-  cookies().set('session', session, {
+  const response = cookies().set('session', session, {
     httpOnly: true,
     secure: true,
     expires: expiresAt,
     sameSite: 'lax',
     path: '/',
   });
+  console.log('Set cookie:', response);
 };
 
 export const deleteSession = () => {
